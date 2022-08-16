@@ -1,7 +1,7 @@
-import { API_URI } from './const.js';
+import {API_URI} from './const.js';
 
-export const getGoods = async () => {
-  const responce = await fetch(`${API_URI}goods/?nopage=true`);
+export const getGoods = async (id) => {
+  const responce = await fetch(`${API_URI}api/goods/${id ? id : '?nopage=true'}`);
   if (responce.ok) {
     return responce.json();
   }
@@ -9,7 +9,7 @@ export const getGoods = async () => {
 };
 
 export const postGoods = async (data) => {
-  const responce = await fetch(`${API_URI}goods`, {
+  const response = await fetch(`${API_URI}api/goods`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -17,16 +17,30 @@ export const postGoods = async (data) => {
     body: JSON.stringify(data),
   });
 
-  if (responce.ok) {
-    return responce.json();
+  if (response.ok) {
+    return response.json();
   }
-  throw new Error(`Ошибка: ${responce.status}`);
+  throw new Error(`Ошибка: ${response.status}`);
 };
 
 export const getCategory = async () => {
-  const responce = await fetch(`${API_URI}category`);
-  if (responce.ok) {
-    return responce.json();
+  const response = await fetch(`${API_URI}api/category`);
+  if (response.ok) {
+    return response.json();
   }
-  throw new Error(`Ошибка: ${responce.status}`);
+  throw new Error(`Ошибка: ${response.status}`);
+};
+
+export const deleteGoods = async (id) => {
+  const response = await fetch(`${API_URI}api/goods/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (response.ok) {
+    return response.json();
+  }
+  throw new Error(`Ошибка: ${response.status}`);
 };
